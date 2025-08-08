@@ -113,11 +113,16 @@ class SubjectiveBinanceP2POffersDataSource(SubjectiveDataSource):
             BBLogger.log(f"Error saving offer to file: {e}", level="error")
 
     def get_icon(self):
-        # Binance icon (placeholder; replace with actual Binance icon if needed)
-        return """<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <circle cx="10" cy="10" r="10" fill="#F3BA2F"/>
-  <text x="10" y="14" text-anchor="middle" fill="black" font-size="8">BNB</text>
-</svg>"""
+        """Return SVG icon content, preferring a local icon.svg in the plugin folder."""
+        import os
+        icon_path = os.path.join(os.path.dirname(__file__), 'icon.svg')
+        try:
+            if os.path.exists(icon_path):
+                with open(icon_path, 'r', encoding='utf-8') as f:
+                    return f.read()
+        except Exception:
+            pass
+        return '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#F3BA2F"/></svg>'
 
     def get_connection_data(self):
         return {
